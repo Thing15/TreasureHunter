@@ -86,6 +86,7 @@ public class TreasureHunter {
         // variable; we can leave it as a local variable
         Shop shop = new Shop(markdown);
 
+
         // creating the new Town -- which we need to store as an instance
         // variable in this class, since we need to access the Town
         // object in other methods of this class
