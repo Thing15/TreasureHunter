@@ -62,6 +62,7 @@ public class TreasureHunter {
             hunter.addItem("machete");
             hunter.addItem("horse");
             hunter.addItem("boat");
+            hunter.addItem("boots");
         }
     }
 
