@@ -15,6 +15,7 @@ public class Town {
     private boolean dug;
     private int reward;
 
+
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
      *
