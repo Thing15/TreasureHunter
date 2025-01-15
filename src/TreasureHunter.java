@@ -146,9 +146,8 @@ public class TreasureHunter {
             currentTown.lookForTrouble();
         } else if (choice.equals("x")) {
             System.out.println("Fare thee well, " + hunter.getHunterName() + "!");
-        } else if(3 < 1) {
+        } else if(choice.equals("d")) {
             currentTown.dig();
-            System.out.println("You can no longer dig in this town.");
         } else {
             System.out.println("Yikes! That's an invalid option! Try again.");
         }

@@ -1,3 +1,5 @@
+import java.sql.SQLOutput;
+
 /**
  * The Town Class is where it all happens.
  * The Town is designed to manage all the things a Hunter can do in town.
@@ -12,6 +14,7 @@ public class Town {
     private String printMessage;
     private boolean toughTown;
     private boolean dug;
+    private int reward;
 
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
@@ -31,6 +34,7 @@ public class Town {
 
         // higher toughness = more likely to be a tough town
         toughTown = (Math.random() < toughness);
+        dug = false;
     }
 
     public Terrain getTerrain() {
@@ -87,8 +91,26 @@ public class Town {
     }
 
     public void dig() {
+        if (!hunter.hasItemInKit("shovel")) {
+            System.out.println("You can't dig for gold without a shovel");
+        }
+        else if (dug) {
+            System.out.println("You already dug for gold in this town.");
+        }
+        else if ((Math.random() * 100) > 50.0) {
+            reward = (int) (Math.random() * 20) + 1;
+            System.out.println("You dug up " + reward + Colors.YELLOW + " gold" + Colors.RESET + "!");
+            System.out.println("You can no longer dig in this town.");
+            dug = true;
+        }
+        else {
+            System.out.println("You dug but only found dirt.");
+            System.out.println("You can no longer dig in this town.");
+            dug = true;
+        }
 
     }
+
 
     /**
      * Gives the hunter a chance to fight for some gold.<p>
