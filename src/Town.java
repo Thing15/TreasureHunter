@@ -11,8 +11,11 @@ public class Town {
     private Terrain terrain;
     private String printMessage;
     private boolean toughTown;
+    private boolean easy;
     private boolean dug;
     private String treasure;
+    private int reward;
+
 
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
@@ -20,7 +23,8 @@ public class Town {
      * @param shop The town's shoppe.
      * @param toughness The surrounding terrain.
      */
-    public Town(Shop shop, double toughness) {
+    public Town(Shop shop, double toughness, boolean easy) {
+        this.easy = easy;
         this.shop = shop;
         this.terrain = getNewTerrain();
         dug = false;
@@ -42,6 +46,7 @@ public class Town {
 
         // higher toughness = more likely to be a tough town
         toughTown = (Math.random() < toughness);
+        dug = false;
     }
 
     public Terrain getTerrain() {
@@ -77,9 +82,9 @@ public class Town {
         if (canLeaveTown) {
             String item = terrain.getNeededItem();
             printMessage = "You used your " + Colors.PURPLE + item + Colors.RESET + " to cross the " + terrain.getTerrainName() + ".";
-            if (checkItemBreak()) {
+            if (checkItemBreak() && !easy) {
                 hunter.removeItemFromKit(item);
-                printMessage += "\nUnfortunately, your " + Colors.PURPLE + item + Colors.RESET + " broke.";
+                printMessage += "\nUnfortunately, you lost your " + Colors.PURPLE + item + Colors.RESET + ".";
             }
             return true;
         }
@@ -98,6 +103,23 @@ public class Town {
     }
 
     public void dig() {
+        if (!hunter.hasItemInKit("shovel")) {
+            System.out.println("You can't dig for gold without a shovel");
+        }
+        else if (dug) {
+            System.out.println("You already dug for gold in this town.");
+        }
+        else if ((Math.random() * 100) > 50.0) {
+            reward = (int) (Math.random() * 20) + 1;
+            System.out.println("You dug up " + reward + Colors.YELLOW + " gold" + Colors.RESET + "!");
+            System.out.println("You can no longer dig in this town.");
+            dug = true;
+        }
+        else {
+            System.out.println("You dug but only found dirt.");
+            System.out.println("You can no longer dig in this town.");
+            dug = true;
+        }
 
     }
 

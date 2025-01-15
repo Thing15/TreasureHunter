@@ -16,6 +16,7 @@ public class TreasureHunter {
     private Town currentTown;
     private Hunter hunter;
     private boolean hardMode;
+    private boolean easyMode;
     private boolean testMode;
 
     /**
@@ -26,6 +27,7 @@ public class TreasureHunter {
         currentTown = null;
         hunter = null;
         hardMode = false;
+        easyMode = false;
         testMode = false;
     }
 
@@ -50,11 +52,11 @@ public class TreasureHunter {
         // set hunter instance variable
         hunter = new Hunter(name, 20);
 
-        System.out.print("Hard mode? (y/n): ");
-        String hard = SCANNER.nextLine().toLowerCase();
-        if (hard.equals("y")) {
+        System.out.print("Mode (e)asy, (n)ormal, or (h)ard? ");
+        String dif = SCANNER.nextLine().toLowerCase();
+        if (dif.equals("h")) {
             hardMode = true;
-        } else if (hard.equals("test")) {
+        } else if (dif.equals("test")) {
             testMode = true;
             hunter = new Hunter(name, 100);
             hunter.addItem("water");
@@ -64,6 +66,14 @@ public class TreasureHunter {
             hunter.addItem("boat");
             hunter.addItem("boots");
             hunter.addItem("shovel");
+            easyMode = false;
+            hardMode = false;
+        }
+        else if (dif.equals("e")) {
+            easyMode = true;
+        }
+        else if (!dif.equals("n")) {
+            System.out.println("Invalid input, difficulty set to normal.");
         }
     }
 
@@ -73,6 +83,11 @@ public class TreasureHunter {
     private void enterTown() {
         double markdown = 0.5;
         double toughness = 0.4;
+        if (easyMode) {
+            markdown = 1;
+
+            toughness = 0.2;
+        }
         if (hardMode) {
             // in hard mode, you get less money back when you sell items
             markdown = 0.25;
@@ -90,7 +105,7 @@ public class TreasureHunter {
         // creating the new Town -- which we need to store as an instance
         // variable in this class, since we need to access the Town
         // object in other methods of this class
-        currentTown = new Town(shop, toughness);
+        currentTown = new Town(shop, toughness, easyMode);
 
         // calling the hunterArrives method, which takes the Hunter
         // as a parameter; note this also could have been done in the
@@ -158,9 +173,8 @@ public class TreasureHunter {
             }
         } else if (choice.equals("x")) {
             System.out.println("Fare thee well, " + hunter.getHunterName() + "!");
-        } else if(3 < 1) {
+        } else if(choice.equals("d")) {
             currentTown.dig();
-            System.out.println("You can no longer dig in this town.");
         } else {
             System.out.println("Yikes! That's an invalid option! Try again.");
         }
