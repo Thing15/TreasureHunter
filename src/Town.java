@@ -12,6 +12,7 @@ public class Town {
     private String printMessage;
     private boolean toughTown;
     private boolean dug;
+    private String treasure;
 
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
@@ -23,6 +24,16 @@ public class Town {
         this.shop = shop;
         this.terrain = getNewTerrain();
         dug = false;
+        int x = (int )(Math.random() * 4 + 1);
+        if (x == 1) {
+            treasure = "a crown";
+        } else if (x == 2) {
+            treasure = "a trophy";
+        } else if (x == 3) {
+            treasure = "a gem";
+        } else {
+            treasure = "dust";
+        }
 
         // the hunter gets set using the hunterArrives method, which
         // gets called from a client class
@@ -122,6 +133,15 @@ public class Town {
                 }
             }
         }
+    }
+
+    public String huntTreasure() {
+        dug = true;
+        return treasure;
+    }
+
+    public boolean getDug() {
+        return dug;
     }
 
     public String infoString() {
