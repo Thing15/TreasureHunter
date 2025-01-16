@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Scanner;
 
 /**
@@ -121,7 +122,7 @@ public class TreasureHunter {
      */
     private void showMenu() {
         String choice = "";
-        while (!choice.equals("x") && !hunter.lose) {
+        while (!choice.equals("x") && !hunter.lose && !hunter.win) {
             System.out.println();
             System.out.println(currentTown.getLatestNews());
             System.out.println("***");
@@ -140,7 +141,9 @@ public class TreasureHunter {
             choice = SCANNER.nextLine().toLowerCase();
             processChoice(choice);
         }
-        System.out.println(Colors.RED + "YOU LOSE\nYOU RAN OUT OF GOLD");
+        if (hunter.lose) {
+            System.out.println(Colors.RED + "YOU LOSE\nYOU RAN OUT OF GOLD");
+        }
     }
 
     /**
@@ -169,6 +172,10 @@ public class TreasureHunter {
                     System.out.println(Colors.RED + "You have already found this item (will not be collected)" + Colors.RESET);
                 } else {
                     hunter.addTreasure(currentTown.huntTreasure());
+                    if (hunter.hasAllTreasures()) {
+                        System.out.println(Colors.GREEN + "Congratulations, you have found the last of the three treasures, you win!");
+                        hunter.win = true;
+                    }
                 }
             }
         } else if (choice.equals("x")) {

@@ -11,6 +11,7 @@ public class Hunter {
     public String[] collectedTreasures;
     public int gold;
     public boolean lose;
+    public boolean win;
 
     /**
      * The base constructor of a Hunter assigns the name to the hunter and an empty kit.
@@ -24,6 +25,7 @@ public class Hunter {
         collectedTreasures = new String[3];
         gold = startingGold;
         lose = false;
+        win = false;
     }
 
     //Accessors
@@ -144,6 +146,20 @@ public class Hunter {
         return false;
     }
 
+    public boolean hasAllTreasures() {
+        int x = 0;
+        for (String string : collectedTreasures) {
+            if (string != null) {
+                x++;
+            }
+        }
+        if (x == 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
      /**
      * Returns a printable representation of the inventory, which
      * is a list of the items in kit, with a space between each item.
@@ -182,7 +198,7 @@ public class Hunter {
         if (!kitIsEmpty()) {
             str += " and " + getInventory();
         }
-        if(!collectedTreasuresIsEmpty()) {
+        if (!collectedTreasuresIsEmpty()) {
             str += "\nTreasures found: " + getCollectedTreasures();
         } else {
             str += "\nTreasures found: none";
@@ -221,7 +237,7 @@ public class Hunter {
         return true;
     }
 
-    private boolean collectedTreasuresIsEmpty() {
+    public boolean collectedTreasuresIsEmpty() {
         for (String string : collectedTreasures) {
             if (string != null) {
                 return false;
