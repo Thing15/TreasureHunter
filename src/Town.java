@@ -13,6 +13,7 @@ public class Town {
     private boolean toughTown;
     private boolean easy;
     private boolean dug;
+    private boolean treasureDig;
     private String treasure;
     private int reward;
 
@@ -105,6 +106,7 @@ public class Town {
     public void dig() {
         if (!hunter.hasItemInKit("shovel")) {
             System.out.println("You can't dig for gold without a shovel");
+            dug = false;
         }
         else if (dug) {
             System.out.println("You already dug for gold in this town.");
@@ -164,7 +166,7 @@ public class Town {
     }
 
     public String huntTreasure() {
-        dug = true;
+        treasureDig = true;
         return treasure;
     }
 
