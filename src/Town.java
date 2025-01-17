@@ -16,6 +16,7 @@ public class Town {
     private boolean treasureDig;
     private String treasure;
     private int reward;
+    private boolean brawled;
 
 
     /**
@@ -48,6 +49,8 @@ public class Town {
         // higher toughness = more likely to be a tough town
         toughTown = (Math.random() < toughness);
         dug = false;
+        treasureDig = false;
+        brawled = false;
     }
 
     public Terrain getTerrain() {
@@ -149,14 +152,14 @@ public class Town {
             printMessage = "You want trouble, stranger!  You got it!\nOof! Umph! Ow!\n";
             int goldDiff = (int) (Math.random() * 10) + 1;
             if (Math.random() > noTroubleChance) {
-                String tempPM = printMessage;
-                printMessage += Colors.RED + "Okay, stranger! You proved yer mettle. Here, take my gold." + Colors.RED;
-                printMessage += Colors.RED + "\nYou won the brawl and receive " + goldDiff + Colors.YELLOW + " gold" + Colors.RESET + "." + Colors.RED;
+                System.out.println("Okay, stranger! You proved yer mettle. Here, take my gold." + Colors.RED);
+                System.out.println("You won the brawl and receive " + goldDiff + Colors.YELLOW + " gold" + Colors.RESET + "." + Colors.RED);
+                printMessage = "You won a brawl";
                 hunter.changeGold(goldDiff);
-                printMessage = tempPM;
             } else {
-                printMessage += Colors.RED + "That'll teach you to go lookin' fer trouble in MY town! Now pay up!" + Colors.RED;
-                printMessage += Colors.RED + "\nYou lost the brawl and pay " + goldDiff + Colors.YELLOW +  " gold" + Colors.RESET + "." + Colors.RED;
+                System.out.println(Colors.RED + "That'll teach you to go lookin' fer trouble in MY town! Now pay up!" + Colors.RED);
+                System.out.println(Colors.RED + "\nYou lost the brawl and pay " + goldDiff + Colors.YELLOW +  " gold" + Colors.RESET + "." + Colors.RED);
+                printMessage = "You lost a brawl";
                 if (hunter.gold < goldDiff) {
                     hunter.lose = true;
                     hunter.setGold(hunter.gold - goldDiff);
@@ -170,10 +173,6 @@ public class Town {
     public String huntTreasure() {
         treasureDig = true;
         return treasure;
-    }
-
-    public boolean getDug() {
-        return dug;
     }
 
     public boolean getTreasureDig() {
