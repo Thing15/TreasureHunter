@@ -177,10 +177,12 @@ public class TreasureHunter {
                 if (hunter.hasTreasureInCollectedTreasures(currentTown.huntTreasure())) {
                     System.out.println(Colors.RED + "You have already found this item (will not be collected)" + Colors.RESET);
                 } else {
-                    hunter.addTreasure(currentTown.huntTreasure());
-                    if (hunter.hasAllTreasures()) {
-                        System.out.println(Colors.GREEN + "Congratulations, you have found the last of the three treasures, you win!");
-                        hunter.win = true;
+                    if (!currentTown.huntTreasure().equals("dust")) {
+                        hunter.addTreasure(currentTown.huntTreasure());
+                        if (hunter.hasAllTreasures()) {
+                            System.out.println(Colors.GREEN + "Congratulations, you have found the last of the three treasures, you win!");
+                            hunter.win = true;
+                        }
                     }
                 }
             }
