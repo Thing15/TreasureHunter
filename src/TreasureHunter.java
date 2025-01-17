@@ -74,6 +74,7 @@ public class TreasureHunter {
         }
         else if (dif.equals("e")) {
             easyMode = true;
+            hunter = new Hunter(name, 40);
         }
         else if (dif.equals("s")) {
             samurai = true;
@@ -170,7 +171,7 @@ public class TreasureHunter {
         } else if (choice.equals("l")) {
             currentTown.lookForTrouble();
         } else if (choice.equals("h")) {
-            if (currentTown.getDug()) {
+            if (currentTown.getTreasureDig()) {
                 System.out.println(Colors.RED + "You have already searched this town" + Colors.RESET);
             } else {
                 System.out.println(Colors.GREEN + "You found " + Colors.YELLOW + currentTown.huntTreasure() + Colors.GREEN + "!" + Colors.RESET);
