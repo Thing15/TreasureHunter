@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Scanner;
 
 /**
@@ -46,37 +47,37 @@ public class Shop {
     public String enter(Hunter hunter, String buyOrSell) {
         customer = hunter;
         if (buyOrSell.equals("b")) {
-            System.out.println("Welcome to the shop! We have the finest wares in town.");
-            System.out.println("Currently we have the following items:");
-            System.out.println(inventory());
-            System.out.print("What're you lookin' to buy? ");
+            TreasureHunter.window.addTextToWindow("Welcome to the shop! We have the finest wares in town.\n", Color.BLACK);
+            TreasureHunter.window.addTextToWindow("Currently we have the following items:\n", Color.BLACK);
+            TreasureHunter.window.addTextToWindow(inventory(), Color.BLACK);
+            TreasureHunter.window.addTextToWindow("What're you lookin' to buy? \n", Color.BLACK);
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, true);
             if (cost == 0) {
-                System.out.println("You like it huh? Just made it myself... wait");
+                TreasureHunter.window.addTextToWindow("You like it huh? Just made it myself... wait\n", Color.BLACK);
                 buyItem("sword");
             } else {
                 if (!hunter.hasItemInKit("sword")) {
-                    System.out.print("It'll cost you " + cost + Colors.YELLOW + " gold" + Colors.RESET + ". Buy it (y/n)? ");
+                    TreasureHunter.window.addTextToWindow("It'll cost you " + cost + " gold" + ". Buy it (y/n)? \n", Color.BLACK);
                     String option = SCANNER.nextLine().toLowerCase();
                     if (option.equals("y")) {
                         buyItem(item);
                     }
                 }
                 else {
-                    System.out.println("JUST TAKE IT AND DON'T DICE ME!!!");
+                    TreasureHunter.window.addTextToWindow("JUST TAKE IT AND DON'T DICE ME!!!\n", Color.BLACK);
                     buyItem(item);
                 }
             }
         } else {
-            System.out.println("What're you lookin' to sell? ");
-            System.out.print("You currently have the following items: " + customer.getInventory());
+            TreasureHunter.window.addTextToWindow("What're you lookin' to sell? \n", Color.BLACK);
+            TreasureHunter.window.addTextToWindow("You currently have the following items: " + customer.getInventory(), Color.BLACK);
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, false);
             if (cost == 0) {
-                System.out.println("We don't want none of those.");
+                TreasureHunter.window.addTextToWindow("We don't want none of those.\n", Color.BLACK);
             } else {
-                System.out.print("It'll get you " + cost + Colors.YELLOW + " gold" + Colors.RESET + ". Sell it (y/n)? ");
+                TreasureHunter.window.addTextToWindow("It'll get you " + cost + " gold" + ". Sell it (y/n)? \n", Color.BLACK);
                 String option = SCANNER.nextLine().toLowerCase();
                 if (option.equals("y")) {
                     sellItem(item);
@@ -93,15 +94,15 @@ public class Shop {
      * @return the string representing the shop's items available for purchase and their prices.
      */
     public String inventory() {
-        String str = "Water: " + WATER_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
-        str += "Rope: " + ROPE_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
-        str += "Machete: " + MACHETE_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
-        str += "Boots: " + BOOTS_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
-        str += "Shovel: " + SHOVEL_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
-        str += "Horse: " + HORSE_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
-        str += "Boat: " + BOAT_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+        String str = "Water: " + WATER_COST + " gold" + "\n";
+        str += "Rope: " + ROPE_COST + " gold" + "\n";
+        str += "Machete: " + MACHETE_COST + " gold" + "\n";
+        str += "Boots: " + BOOTS_COST + " gold" + "\n";
+        str += "Shovel: " + SHOVEL_COST + " gold" + "\n";
+        str += "Horse: " + HORSE_COST + " gold" + "\n";
+        str += "Boat: " + BOAT_COST + " gold" + "\n";
         if (samurai) {
-            str += "Sword: " + SWORD_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+            str += "Sword: " + SWORD_COST + " gold" + "\n";
         }
         return str;
     }
@@ -117,12 +118,12 @@ public class Shop {
             costOfItem = 0;
         }
         if (customer.buyItem(item, costOfItem)) {
-            System.out.println("Ye' got yerself a " + Colors.PURPLE + item + Colors.RESET + ".");
+            TreasureHunter.window.addTextToWindow("Ye' got yerself a " + item + ".\n", Color.BLACK);
             if (costOfItem > 0) {
-                System.out.println(" Come again soon.");
+                TreasureHunter.window.addTextToWindow(" Come again soon.\n", Color.BLACK);
             }
         } else {
-            System.out.println("Hmm, either you don't have enough gold or you've already got one of those!");
+            TreasureHunter.window.addTextToWindow("Hmm, either you don't have enough gold or you've already got one of those!\n", Color.BLACK);
         }
     }
 
@@ -134,9 +135,9 @@ public class Shop {
     public void sellItem(String item) {
         int buyBackPrice = checkMarketPrice(item, false);
         if (customer.sellItem(item, buyBackPrice)) {
-            System.out.println("Pleasure doin' business with you.");
+            TreasureHunter.window.addTextToWindow("Pleasure doin' business with you.\n", Color.BLACK);
         } else {
-            System.out.println("Stop stringin' me along!");
+            TreasureHunter.window.addTextToWindow("Stop stringin' me along!\n", Color.BLACK);
         }
     }
 
@@ -153,6 +154,7 @@ public class Shop {
         } else {
             return getBuyBackCost(item);
         }
+        // comment
     }
 
     /**

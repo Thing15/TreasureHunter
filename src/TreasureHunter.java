@@ -13,6 +13,7 @@ public class TreasureHunter {
     // static variables
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    public static OutputWindow window = new OutputWindow();
     // instance variables
     private Town currentTown;
     private Hunter hunter;
@@ -38,6 +39,7 @@ public class TreasureHunter {
      * Starts the game; this is the only public method
      */
     public void play() {
+        window.clear();
         welcomePlayer();
         enterTown();
         showMenu();
@@ -47,15 +49,15 @@ public class TreasureHunter {
      * Creates a hunter object at the beginning of the game and populates the class member variable with it.
      */
     private void welcomePlayer() {
-        System.out.println("Welcome to " + Colors.CYAN + "TREASURE HUNTER" + Colors.RESET + "!");
-        System.out.println("Going hunting for the big treasure, eh?");
-        System.out.print("What's your name, Hunter? ");
+        window.addTextToWindow("Welcome to " + "TREASURE HUNTER" + "!\n", Color.BLACK);
+        window.addTextToWindow("Going hunting for the big treasure, eh?\n", Color.BLACK);
+        window.addTextToWindow("What's your name, Hunter? \n", Color.BLACK);
         String name = SCANNER.nextLine().toLowerCase();
 
         // set hunter instance variable
         hunter = new Hunter(name, 20);
 
-        System.out.print("Mode (e)asy, (n)ormal, or (h)ard? ");
+        window.addTextToWindow("Mode (e)asy, (n)ormal, or (h)ard? \n", Color.BLACK);
         String dif = SCANNER.nextLine().toLowerCase();
         if (dif.equals("h")) {
             hardMode = true;
@@ -81,7 +83,7 @@ public class TreasureHunter {
             hunter.makeSamurai();
         }
         else if (!dif.equals("n")) {
-            System.out.println("Invalid input, difficulty set to normal.");
+            window.addTextToWindow("Invalid input, difficulty set to normal.\n", Color.BLACK);
         }
     }
 
@@ -130,26 +132,26 @@ public class TreasureHunter {
     private void showMenu() {
         String choice = "";
         while (!choice.equals("x") && !hunter.lose && !hunter.win) {
-            System.out.println();
-            System.out.println(currentTown.getLatestNews());
-            System.out.println("***");
-            System.out.println(hunter.infoString());
-            System.out.println(currentTown.infoString());
-            System.out.println("(B)uy something at the shop.");
-            System.out.println("(S)ell something at the shop.");
-            System.out.println("(E)xplore surrounding terrain.");
-            System.out.println("(M)ove on to a different town.");
-            System.out.println("(L)ook for trouble!");
-            System.out.println("(D)ig for gold.");
-            System.out.println("(H)unt for treasure");
-            System.out.println("Give up the hunt and e(X)it.");
-            System.out.println();
-            System.out.print("What's your next move? ");
+            window.addTextToWindow("\n", Color.BLACK);
+            window.addTextToWindow(currentTown.getLatestNews(), Color.BLACK);
+            window.addTextToWindow("***\n", Color.BLACK);
+            window.addTextToWindow(hunter.infoString(), Color.BLACK);
+            window.addTextToWindow(currentTown.infoString(), Color.BLACK);
+            window.addTextToWindow("(B)uy something at the shop.\n", Color.BLACK);
+            window.addTextToWindow("(S)ell something at the shop.\n", Color.BLACK);
+            window.addTextToWindow("(E)xplore surrounding terrain.\n", Color.BLACK);
+            window.addTextToWindow("(M)ove on to a different town.\n", Color.BLACK);
+            window.addTextToWindow("(L)ook for trouble!\n", Color.BLACK);
+            window.addTextToWindow("(D)ig for gold.\n", Color.BLACK);
+            window.addTextToWindow("(H)unt for treasure\n", Color.BLACK);
+            window.addTextToWindow("Give up the hunt and e(X)it.\n", Color.BLACK);
+            window.addTextToWindow("\n", Color.BLACK);
+            window.addTextToWindow("What's your next move? \n", Color.BLACK);
             choice = SCANNER.nextLine().toLowerCase();
             processChoice(choice);
         }
         if (hunter.lose) {
-            System.out.println(Colors.RED + "YOU LOSE\nYOU RAN OUT OF GOLD");
+            window.addTextToWindow( "YOU LOSE\nYOU RAN OUT OF GOLD\n", Color.BLACK);
         }
     }
 
@@ -161,38 +163,38 @@ public class TreasureHunter {
         if (choice.equals("b") || choice.equals("s")) {
             currentTown.enterShop(choice);
         } else if (choice.equals("e")) {
-            System.out.println(currentTown.getTerrain().infoString());
+            window.addTextToWindow(currentTown.getTerrain().infoString(), Color.BLACK);
         } else if (choice.equals("m")) {
             if (currentTown.leaveTown()) {
                 // This town is going away so print its news ahead of time.
-                System.out.println(currentTown.getLatestNews());
+                window.addTextToWindow(currentTown.getLatestNews(), Color.BLACK);
                 enterTown();
             }
         } else if (choice.equals("l")) {
             currentTown.lookForTrouble();
         } else if (choice.equals("h")) {
             if (currentTown.getTreasureDig()) {
-                System.out.println(Colors.RED + "You have already searched this town" + Colors.RESET);
+                window.addTextToWindow( "You have already searched this town" , Color.BLACK);
             } else {
-                System.out.println(Colors.GREEN + "You found " + Colors.YELLOW + currentTown.huntTreasure() + Colors.GREEN + "!" + Colors.RESET);
+                window.addTextToWindow( "You found " +  currentTown.huntTreasure() +  "!" , Color.BLACK);
                 if (hunter.hasTreasureInCollectedTreasures(currentTown.huntTreasure())) {
-                    System.out.println(Colors.RED + "You have already found this item (will not be collected)" + Colors.RESET);
+                    window.addTextToWindow( "You have already found this item (will not be collected)" , Color.BLACK);
                 } else {
                     if (!currentTown.huntTreasure().equals("dust")) {
                         hunter.addTreasure(currentTown.huntTreasure());
                         if (hunter.hasAllTreasures()) {
-                            System.out.println(Colors.GREEN + "Congratulations, you have found the last of the three treasures, you win!");
+                            window.addTextToWindow("Congratulations, you have found the last of the three treasures, you win!\n", Color.BLACK);
                             hunter.win = true;
                         }
                     }
                 }
             }
         } else if (choice.equals("x")) {
-            System.out.println("Fare thee well, " + hunter.getHunterName() + "!");
+            window.addTextToWindow("Fare thee well, " + hunter.getHunterName() + "!\n", Color.BLACK);
         } else if(choice.equals("d")) {
             currentTown.dig();
         } else {
-            System.out.println("Yikes! That's an invalid option! Try again.");
+            window.addTextToWindow("Yikes! That's an invalid option! Try again.\n", Color.BLACK);
         }
     }
 }

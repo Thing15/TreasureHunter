@@ -1,3 +1,5 @@
+import java.awt.*;
+
 /**
  * The Town Class is where it all happens.
  * The Town is designed to manage all the things a Hunter can do in town.
@@ -17,6 +19,7 @@ public class Town {
     private String treasure;
     private int reward;
     private boolean brawled;
+
 
 
     /**
@@ -85,10 +88,10 @@ public class Town {
         boolean canLeaveTown = terrain.canCrossTerrain(hunter);
         if (canLeaveTown) {
             String item = terrain.getNeededItem();
-            printMessage = "You used your " + Colors.PURPLE + item + Colors.RESET + " to cross the " + terrain.getTerrainName() + ".";
+            printMessage = "You used your " + item + " to cross the " + terrain.getTerrainName() + ".";
             if (checkItemBreak() && !easy) {
                 hunter.removeItemFromKit(item);
-                printMessage += "\nUnfortunately, you lost your " + Colors.PURPLE + item + Colors.RESET + ".";
+                printMessage += "\nUnfortunately, you lost your " + item + ".";
             }
             return true;
         }
@@ -108,22 +111,22 @@ public class Town {
 
     public void dig() {
         if (!hunter.hasItemInKit("shovel")) {
-            System.out.println("You can't dig for gold without a shovel");
+            TreasureHunter.window.addTextToWindow("You can't dig for gold without a shovel\n", Color.BLACK);
             dug = false;
         }
         else if (dug) {
-            System.out.println("You already dug for gold in this town.");
+            TreasureHunter.window.addTextToWindow("You already dug for gold in this town.", Color.RED);
         }
         else if ((Math.random() * 100) > 50.0) {
             reward = (int) (Math.random() * 20) + 1;
-            System.out.println("You dug up " + reward + Colors.YELLOW + " gold" + Colors.RESET + "!");
-            System.out.println("You can no longer dig in this town.");
+            TreasureHunter.window.addTextToWindow("You dug up " + reward + " gold" + "!\n", Color.BLACK);
+            TreasureHunter.window.addTextToWindow("You can no longer dig in this town.\n", Color.BLACK);
             hunter.changeGold(reward);
             dug = true;
         }
         else {
-            System.out.println("You dug but only found dirt.");
-            System.out.println("You can no longer dig in this town.");
+            TreasureHunter.window.addTextToWindow("You dug but only found dirt.\n", Color.BLACK);
+            TreasureHunter.window.addTextToWindow("You can no longer dig in this town.\n", Color.BLACK);
             dug = true;
         }
 
@@ -145,7 +148,7 @@ public class Town {
             printMessage = "You couldn't find any trouble";
         }
         else if (hunter.hasItemInKit("sword")) {
-            System.out.println("IS THAT A WHOLE SWORD, PLEASE STRANGER JUST TAKE MY MONEY");
+            TreasureHunter.window.addTextToWindow("IS THAT A WHOLE SWORD, PLEASE STRANGER JUST TAKE MY MONEY\n", Color.BLACK);
             int goldDiff = (int) (Math.random() * 10) + 1;
             hunter.changeGold(goldDiff);
         }
@@ -153,13 +156,13 @@ public class Town {
             printMessage = "You want trouble, stranger!  You got it!\nOof! Umph! Ow!\n";
             int goldDiff = (int) (Math.random() * 10) + 1;
             if (Math.random() > noTroubleChance) {
-                System.out.println("Okay, stranger! You proved yer mettle. Here, take my gold." + Colors.RED);
-                System.out.println("You won the brawl and receive " + goldDiff + Colors.YELLOW + " gold" + Colors.RESET + "." + Colors.RED);
+                printMessage += Colors.RED + "Okay, stranger! You proved yer mettle. Here, take my gold." + Colors.RED;
+                printMessage += Colors.RED + "\nYou won the brawl and receive " + goldDiff + " gold" + "." + Colors.RED;
                 printMessage = "You won a brawl";
                 hunter.changeGold(goldDiff);
             } else {
-                System.out.println(Colors.RED + "That'll teach you to go lookin' fer trouble in MY town! Now pay up!" + Colors.RED);
-                System.out.println(Colors.RED + "\nYou lost the brawl and pay " + goldDiff + Colors.YELLOW +  " gold" + Colors.RESET + "." + Colors.RED);
+                printMessage += Colors.RED + "That'll teach you to go lookin' fer trouble in MY town! Now pay up!" + Colors.RED;
+                printMessage += Colors.RED + "\nYou lost the brawl and pay " + goldDiff +  " gold" + "." + Colors.RED;
                 printMessage = "You lost a brawl";
                 if (hunter.gold < goldDiff) {
                     hunter.lose = true;
@@ -174,6 +177,10 @@ public class Town {
     public String huntTreasure() {
         treasureDig = true;
         return treasure;
+    }
+
+    public boolean getDug() {
+        return dug;
     }
 
     public boolean getTreasureDig() {

@@ -181,7 +181,7 @@ public class Hunter {
 
         for (String item : kit) {
             if (item != null) {
-                printableKit += Colors.PURPLE + item + Colors.RESET + space;
+                printableKit += item + space;
             }
         }
         return printableKit;
@@ -193,7 +193,7 @@ public class Hunter {
 
         for (String item : collectedTreasures) {
             if (item != null) {
-                printableTreasures += Colors.PURPLE + item + Colors.RESET + space;
+                printableTreasures += item + space;
             }
         }
         return printableTreasures;
@@ -203,7 +203,7 @@ public class Hunter {
      * @return A string representation of the hunter.
      */
     public String infoString() {
-        String str = hunterName + " has " + gold + Colors.YELLOW + " gold" + Colors.RESET;
+        String str = hunterName + " has " + gold + " gold";
         if (!kitIsEmpty()) {
             str += " and " + getInventory();
         }
