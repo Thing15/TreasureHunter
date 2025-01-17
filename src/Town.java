@@ -118,6 +118,7 @@ public class Town {
             reward = (int) (Math.random() * 20) + 1;
             System.out.println("You dug up " + reward + Colors.YELLOW + " gold" + Colors.RESET + "!");
             System.out.println("You can no longer dig in this town.");
+            hunter.changeGold(reward);
             dug = true;
         }
         else {
