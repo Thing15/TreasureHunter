@@ -19,6 +19,7 @@ public class TreasureHunter {
     private boolean hardMode;
     private boolean easyMode;
     private boolean testMode;
+    private boolean samurai;
 
     /**
      * Constructs the Treasure Hunter game.
@@ -30,6 +31,7 @@ public class TreasureHunter {
         hardMode = false;
         easyMode = false;
         testMode = false;
+        samurai = false;
     }
 
     /**
@@ -73,6 +75,10 @@ public class TreasureHunter {
         else if (dif.equals("e")) {
             easyMode = true;
         }
+        else if (dif.equals("s")) {
+            samurai = true;
+            hunter.makeSamurai();
+        }
         else if (!dif.equals("n")) {
             System.out.println("Invalid input, difficulty set to normal.");
         }
@@ -100,7 +106,7 @@ public class TreasureHunter {
         // note that we don't need to access the Shop object
         // outside of this method, so it isn't necessary to store it as an instance
         // variable; we can leave it as a local variable
-        Shop shop = new Shop(markdown);
+        Shop shop = new Shop(markdown, samurai);
 
 
         // creating the new Town -- which we need to store as an instance
@@ -165,9 +171,9 @@ public class TreasureHunter {
             currentTown.lookForTrouble();
         } else if (choice.equals("h")) {
             if (currentTown.getDug()) {
-                System.out.println(Colors.RED + "you have already searched this town" + Colors.RESET);
+                System.out.println(Colors.RED + "You have already searched this town" + Colors.RESET);
             } else {
-                System.out.println(Colors.GREEN + "you found " + Colors.YELLOW + currentTown.huntTreasure() + Colors.GREEN + "!" + Colors.RESET);
+                System.out.println(Colors.GREEN + "You found " + Colors.YELLOW + currentTown.huntTreasure() + Colors.GREEN + "!" + Colors.RESET);
                 if (hunter.hasTreasureInCollectedTreasures(currentTown.huntTreasure())) {
                     System.out.println(Colors.RED + "You have already found this item (will not be collected)" + Colors.RESET);
                 } else {

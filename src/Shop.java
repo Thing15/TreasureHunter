@@ -15,6 +15,7 @@ public class Shop {
     private static final int BOAT_COST = 20;
     private static final int BOOTS_COST = 8;
     private static final int SHOVEL_COST = 8;
+    private static final int SWORD_COST = 0;
 
     // static variables
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -22,14 +23,16 @@ public class Shop {
     // instance variables
     private double markdown;
     private Hunter customer;
+    private boolean samurai;
 
     /**
      * The Shop constructor takes in a markdown value and leaves customer null until one enters the shop.
      *
      * @param markdown Percentage of markdown for selling items in decimal format.
      */
-    public Shop(double markdown) {
+    public Shop(double markdown, boolean samurai) {
         this.markdown = markdown;
+        this.samurai = samurai;
         customer = null; // customer is set in the enter method
     }
 
@@ -50,11 +53,18 @@ public class Shop {
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, true);
             if (cost == 0) {
-                System.out.println("We ain't got none of those.");
+                System.out.println("You like it huh? Just made it myself... wait");
+                buyItem("sword");
             } else {
-                System.out.print("It'll cost you " + cost + Colors.YELLOW + " gold" + Colors.RESET + ". Buy it (y/n)? ");
-                String option = SCANNER.nextLine().toLowerCase();
-                if (option.equals("y")) {
+                if (!hunter.hasItemInKit("sword")) {
+                    System.out.print("It'll cost you " + cost + Colors.YELLOW + " gold" + Colors.RESET + ". Buy it (y/n)? ");
+                    String option = SCANNER.nextLine().toLowerCase();
+                    if (option.equals("y")) {
+                        buyItem(item);
+                    }
+                }
+                else {
+                    System.out.println("JUST TAKE IT AND DON'T DICE ME!!!");
                     buyItem(item);
                 }
             }
@@ -83,13 +93,16 @@ public class Shop {
      * @return the string representing the shop's items available for purchase and their prices.
      */
     public String inventory() {
-        String str = "Water: " + WATER_COST + " gold\n";
-        str += "Rope: " + ROPE_COST + " gold\n";
-        str += "Machete: " + MACHETE_COST + " gold\n";
-        str += "Boots: " + BOOTS_COST + " gold\n";
-        str += "Shovel: " + SHOVEL_COST + " gold\n";
-        str += "Horse: " + HORSE_COST + " gold\n";
-        str += "Boat: " + BOAT_COST + " gold\n";
+        String str = "Water: " + WATER_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+        str += "Rope: " + ROPE_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+        str += "Machete: " + MACHETE_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+        str += "Boots: " + BOOTS_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+        str += "Shovel: " + SHOVEL_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+        str += "Horse: " + HORSE_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+        str += "Boat: " + BOAT_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+        if (samurai) {
+            str += "Sword: " + SWORD_COST + Colors.YELLOW + " gold" + Colors.RESET + "\n";
+        }
         return str;
     }
 
@@ -100,8 +113,14 @@ public class Shop {
      */
     public void buyItem(String item) {
         int costOfItem = checkMarketPrice(item, true);
+        if (customer.hasItemInKit("sword")) {
+            costOfItem = 0;
+        }
         if (customer.buyItem(item, costOfItem)) {
-            System.out.println("Ye' got yerself a " + Colors.PURPLE + item + Colors.RESET + ". Come again soon.");
+            System.out.println("Ye' got yerself a " + Colors.PURPLE + item + Colors.RESET + ".");
+            if (costOfItem > 0) {
+                System.out.println(" Come again soon.");
+            }
         } else {
             System.out.println("Hmm, either you don't have enough gold or you've already got one of those!");
         }
@@ -157,6 +176,8 @@ public class Shop {
             return BOAT_COST;
         } else if (item.equals("boots")) {
             return BOOTS_COST;
+        } else if (item.equals("sword")) {
+            return SWORD_COST;
         } else {
             return 0;
         }

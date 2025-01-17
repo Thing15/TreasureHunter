@@ -137,7 +137,13 @@ public class Town {
         }
         if (Math.random() > noTroubleChance) {
             printMessage = "You couldn't find any trouble";
-        } else {
+        }
+        else if (hunter.hasItemInKit("sword")) {
+            System.out.println("IS THAT A WHOLE SWORD, PLEASE STRANGER JUST TAKE MY MONEY");
+            int goldDiff = (int) (Math.random() * 10) + 1;
+            hunter.changeGold(goldDiff);
+        }
+        else {
             printMessage = "You want trouble, stranger!  You got it!\nOof! Umph! Ow!\n";
             int goldDiff = (int) (Math.random() * 10) + 1;
             if (Math.random() > noTroubleChance) {
